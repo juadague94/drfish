@@ -844,13 +844,60 @@ body.menu-open { overflow: hidden; }
 .price-top small,.service-price small { color:var(--soft); font-size:.8rem; }
 .price-card p { color:var(--muted); margin:0 0 24px; }
 .price-card .card-link { margin-top:auto; }
+.eq-tier-grid .card-link {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  width:100%;
+  min-height:54px;
+  padding:14px 17px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:16px;
+  background:linear-gradient(135deg,#ff874d 0%,var(--accent) 100%);
+  color:#071722!important;
+  font-size:.78rem;
+  font-weight:800;
+  letter-spacing:.095em;
+  box-shadow:0 12px 28px rgba(243,108,47,.22),inset 0 1px 0 rgba(255,255,255,.28);
+  transition:transform .22s ease,box-shadow .22s ease,filter .22s ease;
+}
+.eq-tier-grid .card-link::after { content:'→'; font-size:1.15rem; line-height:1; transition:transform .22s ease; }
+.eq-tier-grid .card-link:hover { transform:translateY(-2px); filter:brightness(1.06); box-shadow:0 17px 34px rgba(243,108,47,.32),inset 0 1px 0 rgba(255,255,255,.32); }
+.eq-tier-grid .card-link:hover::after { transform:translateX(4px); }
+.eq-tier-grid .card-link:active { transform:translateY(0) scale(.985); }
+.eq-tier-grid .card-link:focus-visible { outline:3px solid rgba(255,255,255,.9); outline-offset:3px; }
 .online-service-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; }
 .online-service-card { border:1px solid var(--line-soft); border-radius:28px; padding:26px; background:rgba(255,255,255,.025); }
 .online-service-card h3 { font-family:var(--serif); font-size:2rem; line-height:1; margin:12px 0 18px; }
 .service-price { display:flex; flex-direction:column; gap:5px; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid var(--line-soft); }
 .online-service-card p { color:var(--muted); }
 .fine-print { color:var(--soft)!important; font-size:.88rem; }
-.card-link { display:inline-block; margin-top:10px; color:#ffb08d!important; text-transform:uppercase; letter-spacing:.13em; font-size:.75rem; }
+.card-link {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  width:100%;
+  min-height:52px;
+  margin-top:18px;
+  padding:13px 16px;
+  border:1px solid rgba(243,108,47,.5);
+  border-radius:15px;
+  background:rgba(243,108,47,.11);
+  color:#ffb08d!important;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-size:.76rem;
+  font-weight:750;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  transition:transform .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+.card-link::after { content:'→'; font-size:1.1rem; line-height:1; transition:transform .22s ease; }
+.card-link:hover { transform:translateY(-2px); background:rgba(243,108,47,.18); border-color:rgba(255,139,82,.82); box-shadow:0 12px 26px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.08); }
+.card-link:hover::after { transform:translateX(4px); }
+.card-link:active { transform:translateY(0) scale(.988); }
+.card-link:focus-visible { outline:3px solid rgba(255,255,255,.9); outline-offset:3px; }
 
 .san-brand-row { display:grid; grid-template-columns:minmax(220px,.55fr) minmax(0,1.25fr); gap:clamp(28px,6vw,80px); align-items:center; margin-bottom:42px; }
 .fsa-logo { width:min(100%,520px); max-height:320px; object-fit:contain; object-position:left center; }
@@ -892,6 +939,7 @@ body.menu-open { overflow: hidden; }
   .hero-actions{gap:9px;}
   .hero-actions .btn{width:100%;}
   .online-service-card,.price-card{padding:20px;}
+  .eq-tier-grid .card-link{min-height:58px;padding:16px 18px;font-size:.8rem;}
 }
 
     .course-diagnostic-note {
