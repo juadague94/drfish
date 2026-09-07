@@ -464,13 +464,14 @@
 
     [data-reveal] {
       opacity: 0;
-      transform: translateY(34px);
-      filter: blur(7px);
-      transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1), filter .9s ease;
+      transform: translate3d(0,48px,0) scale(.985);
+      filter: blur(5px);
+      transition: opacity .95s cubic-bezier(.16,1,.3,1), transform .95s cubic-bezier(.16,1,.3,1), filter .8s ease;
+      transition-delay: var(--reveal-delay, 0ms);
       will-change: transform, opacity;
     }
-    [data-reveal="left"] { transform: translateX(-34px); }
-    [data-reveal="right"] { transform: translateX(34px); }
+    [data-reveal="left"] { transform: translate3d(-40px,18px,0) scale(.985); }
+    [data-reveal="right"] { transform: translate3d(40px,18px,0) scale(.985); }
     [data-reveal].is-visible {
       opacity: 1;
       transform: translate3d(0,0,0);
@@ -481,6 +482,13 @@
     .stagger-3 { transition-delay: .24s; }
     .stagger-4 { transition-delay: .32s; }
     .stagger-5 { transition-delay: .4s; }
+
+    .scroll-depth-media {
+      --parallax-y: 0px;
+      transform: translate3d(0,var(--parallax-y),0) scale(1.065);
+      transform-origin: center center;
+      will-change: transform;
+    }
 
     
 .school-note {
@@ -522,6 +530,11 @@
       *, *::before, *::after { animation: none !important; transition: none !important; }
       [data-reveal] { opacity: 1; transform: none; filter: none; }
       .hero-media img { transform: none !important; }
+      .scroll-depth-media { transform: none !important; }
+    }
+    @media (max-width: 700px) and (prefers-reduced-motion: no-preference) {
+      [data-reveal] { transform: translate3d(0,28px,0) scale(.992); filter: none; transition-duration: .72s; }
+      [data-reveal="left"], [data-reveal="right"] { transform: translate3d(0,28px,0) scale(.992); }
     }
   
 
@@ -1599,7 +1612,34 @@ const onScroll = () => {
   if (!reduceMotion && heroImage && window.innerWidth > 700) {
     heroImage.style.transform = `scale(1.08) translateY(${Math.min(y * 0.06, 38)}px)`;
   }
+  if (!reduceMotion) {
+    parallaxImages.forEach((image) => {
+      const rect = image.getBoundingClientRect();
+      if (rect.bottom < -120 || rect.top > window.innerHeight + 120) return;
+      const centerOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
+      const movement = Math.max(-22, Math.min(22, centerOffset * -28));
+      image.style.setProperty('--parallax-y', `${movement}px`);
+    });
+  }
 };
+
+const revealGroupSelectors = [
+  '.eq-tier-grid', '.online-service-grid', '.offer-grid', '.san-offer-grid',
+  '.stats-grid', '.clinical-list', '.proof-row', '.story-timeline'
+];
+revealGroupSelectors.forEach((selector) => {
+  document.querySelectorAll(selector).forEach((group) => {
+    [...group.children].forEach((child, index) => {
+      if (!child.hasAttribute('data-reveal')) child.setAttribute('data-reveal', '');
+      child.style.setProperty('--reveal-delay', `${Math.min(index, 5) * 80}ms`);
+    });
+  });
+});
+
+const parallaxImages = reduceMotion ? [] : [...document.querySelectorAll(
+  '.eq-photo img, .dominica-hero-bg, .school-photo img, .story-safety-photo img, .story-closing-photo img, .portrait img'
+)];
+parallaxImages.forEach((image) => image.classList.add('scroll-depth-media'));
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
 
